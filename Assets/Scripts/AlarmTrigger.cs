@@ -16,46 +16,32 @@ public class AlarmTrigger : MonoBehaviour
     {
         if (collision.TryGetComponent<Thief>(out Thief thief))
         {
+            _audioSource = GetComponent<AudioSource>();
+            
             Debug.Log("INTRUDER!");
             
             if (_isEnteredHouse == false)
             {
-                StartCoroutine(FadeIn());
+                _audioSource.Play();
+                StartCoroutine(Fader(_volumeDelta));
             }
             else
             {
-                StartCoroutine(FadeOut());
+                StartCoroutine(Fader(_volumeDelta * -1f));
             }
         }
     }
 
-    private IEnumerator FadeIn()
+    private IEnumerator Fader(float volumeDelta)
     {
-        Debug.Log("Inside Fade In method");
+        Debug.Log("Inside Fader method");
         _isEnteredHouse = true;
-        _audioSource = GetComponent<AudioSource>();
-        _audioSource.Play();
         var waitFor = new WaitForSeconds(_seconds);
         
         for (int i = 0; i < _volumeChangeSteps; i++)
         {
-            _audioSource.volume += _volumeDelta;
+            _audioSource.volume += volumeDelta;
             yield return waitFor;
-        }
-    }
-
-    private IEnumerator FadeOut()
-    {
-        Debug.Log("Inside fade out method");
-        _isEnteredHouse = false;
-        _audioSource = GetComponent<AudioSource>();
-        var waitForSeconds = new WaitForSeconds(_seconds);
-        
-        for (int i = 0; i < _volumeChangeSteps; i++)
-        {
-            Debug.Log(i);
-            _audioSource.volume -= _volumeDelta;
-            yield return waitForSeconds;
         }
     }
 }
