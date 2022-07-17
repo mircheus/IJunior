@@ -17,7 +17,6 @@ public class AlarmTrigger : MonoBehaviour
         if (collision.TryGetComponent<Thief>(out Thief thief))
         {
             _audioSource = GetComponent<AudioSource>();
-            
             Debug.Log("INTRUDER!");
             
             if (_isEnteredHouse == false)
