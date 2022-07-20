@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
+
 public class VolumeFader : MonoBehaviour
 {
     [SerializeField] private float _seconds = 1f;
